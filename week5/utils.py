@@ -46,13 +46,13 @@ def load_embeddings(embeddings_path):
     ########################
     #### YOUR CODE HERE ####
     embeddings = {}
-
+    
     with open(embeddings_path, encoding='utf-8') as f:
         for ln in f.readlines():
             rw = ln.strip().split('\t')
             embeddings[rw[0]] = np.array(rw[1:], dtype=np.float32)
-    embeddings_dim = embeddings[list(embeddings)[0]].shape[0]
-    
+            embeddings_dim = embeddings[list(embeddings)[0]].shape[0]
+            
     return embeddings, embeddings_dim
     ########################
 
@@ -73,13 +73,13 @@ def question_to_vec(question, embeddings, dim):
     vec = np.zeros((dim,), dtype=np.float32)
     count = 0
     for word in question.split():
-      if word in embeddings:
-        vec += embeddings[word]
-        count += 1
-           
+        if word in embeddings:
+            vec += embeddings[word]
+            count += 1
+            
     if count == 0:
         return vec
-      
+
     return vec/count
     ########################
 
