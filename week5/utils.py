@@ -45,13 +45,22 @@ def load_embeddings(embeddings_path):
 
     ########################
     #### YOUR CODE HERE ####
+    embeddings = {}
+
+    with open(embeddings_path, encoding='utf-8') as f:
+        for ln in f.readlines():
+            rw = ln.strip().split('\t')
+            embeddings[rw[0]] = np.array(rw[1:], dtype=np.float32)
+    embeddings_dim = embeddings[list(embeddings)[0]].shape[0]
+    
+    return embeddings, embeddings_dim
     ########################
 
     # remove this when you're done
-    raise NotImplementedError(
-        "Open utils.py and fill with your code. In case of Google Colab, download"
-        "(https://github.com/hse-aml/natural-language-processing/blob/master/project/utils.py), "
-        "edit locally and upload using '> arrow on the left edge' -> Files -> UPLOAD")
+    #raise NotImplementedError(
+    #    "Open utils.py and fill with your code. In case of Google Colab, download"
+    #    "(https://github.com/hse-aml/natural-language-processing/blob/master/project/utils.py), "
+    #    "edit locally and upload using '> arrow on the left edge' -> Files -> UPLOAD")
 
 
 def question_to_vec(question, embeddings, dim):
@@ -61,13 +70,24 @@ def question_to_vec(question, embeddings, dim):
 
     ########################
     #### YOUR CODE HERE ####
+    vec = np.zeros((dim,), dtype=np.float32)
+    count = 0
+    for word in question.split():
+      if word in embeddings:
+        vec += embeddings[word]
+        count += 1
+           
+    if count == 0:
+        return vec
+      
+    return vec/count
     ########################
 
     # remove this when you're done
-    raise NotImplementedError(
-        "Open utils.py and fill with your code. In case of Google Colab, download"
-        "(https://github.com/hse-aml/natural-language-processing/blob/master/project/utils.py), "
-        "edit locally and upload using '> arrow on the left edge' -> Files -> UPLOAD")
+    #raise NotImplementedError(
+    #    "Open utils.py and fill with your code. In case of Google Colab, download"
+    #    "(https://github.com/hse-aml/natural-language-processing/blob/master/project/utils.py), "
+    #    "edit locally and upload using '> arrow on the left edge' -> Files -> UPLOAD")
 
 
 def unpickle_file(filename):
